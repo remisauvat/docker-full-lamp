@@ -9,15 +9,17 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update && \
 	# Apache + PHP + MySQL
     DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
 	ca-certificates git supervisor wget \
-	
+
 	apache2 \
-	
+
 	mysql-server \
-	
+
+    openjdk-jre \
+
     libapache2-mod-php5 php5-cli php5-curl php5-gd php5-geoip php5-imagick php5-imap php5-intl \
     php5-json php5-ldap php5-mcrypt php5-mongo php5-mysqlnd php5-odbc php5-pgsql \
     php5-sqlite php5-ssh2 php5-tidy php5-xcache php5-xsl && \
-		
+
     DEBIAN_FRONTEND=noninteractive apt-get clean && \
     DEBIAN_FRONTEND=noninteractive apt-get autoremove -y && \
     rm -Rf /var/lib/apt/lists/* /usr/share/man/* /usr/share/doc/*
@@ -25,7 +27,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update && \
 # Prepare supervisor
 RUN mkdir -p /var/log/supervisor
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
-	
+
 # Prepare Apache
 RUN sed -i "s/AllowOverride None/AllowOverride All/g" /etc/apache2/apache2.conf
 RUN a2enmod rewrite
@@ -43,4 +45,3 @@ RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" &&
 
 # Last step for services
 CMD ["/usr/bin/supervisord"]
-

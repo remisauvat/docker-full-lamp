@@ -3,4 +3,4 @@
 # iNet Process PHP FPM Docker Image
 Docker Hub: https://hub.docker.com/r/inetprocess/full-lamp
 
-Docker Container for continuous integration (such as Gitlab-ci). Contains Apache + PHP + Mysql
+Docker Container for continuous integration (such as Gitlab-ci). Contains Apache + PHP + Mysql + Java (so a little bit heavy :))

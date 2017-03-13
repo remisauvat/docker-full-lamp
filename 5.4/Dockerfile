@@ -14,6 +14,8 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update && \
 
 	mysql-server \
 
+    openjdk-jre \
+
     libapache2-mod-php5 php-apc php5-cli php5-curl php5-gd php5-geoip php5-imagick php5-imap \
     php5-intl php5-json php5-ldap php5-mcrypt php5-memcached php5-mysql php5-odbc php5-pgsql \
     php5-sqlite php5-tidy php5-xsl && \
