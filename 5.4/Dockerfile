@@ -29,7 +29,7 @@ RUN mkdir -p /var/log/supervisor
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 # Prepare Apache
-RUN sed -i "s/AllowOverride None/AllowOverride All/g" /etc/apache2/apache2.conf
+RUN sed -i "s/AllowOverride None/AllowOverride All/g" /etc/apache2/sites-available/default
 RUN a2enmod rewrite
 EXPOSE 80
 
