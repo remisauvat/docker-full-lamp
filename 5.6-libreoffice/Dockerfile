@@ -8,7 +8,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update && \
 
     DEBIAN_FRONTEND=noninteractive apt-get upgrade -y && \
 
-    DEBIAN_FRONTEND=noninteractive apt-get install -t jessie-backports -y --no-install-recommends git libreoffice-writer && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -t jessie-backports -y --no-install-recommends libreoffice-writer && \
 
     DEBIAN_FRONTEND=noninteractive apt-get autoremove -y && \
     DEBIAN_FRONTEND=noninteractive apt-get clean && \
