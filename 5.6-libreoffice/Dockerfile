@@ -1,4 +1,4 @@
-FROM inetprocess/full-lamp:5.6
+FROM edyan/full-lamp:5.6
 MAINTAINER Emmanuel Dyan <emmanuel.dyan@inetprocess.com>
 
 RUN echo "deb http://http.debian.net/debian jessie-backports main contrib non-free" >> /etc/apt/sources.list.d/jessie-backports.list
