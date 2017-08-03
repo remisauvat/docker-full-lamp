@@ -27,15 +27,6 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get autoremove -y && \
     rm -Rf /var/lib/apt/lists/* /usr/share/man/* /usr/share/doc/*
 
-# Prepare supervisor
-RUN mkdir -p /var/log/supervisor
-COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
-
-# Prepare Apache
-RUN sed -i "s/AllowOverride None/AllowOverride All/g" /etc/apache2/sites-available/default
-RUN a2enmod rewrite
-EXPOSE 80
-
 # Prepare PHP
 COPY php-cli.ini    /etc/php5/cli/conf.d/30-custom-php.ini
 COPY php-apache.ini /etc/php5/apache2/conf.d/30-custom-php.ini
@@ -47,6 +38,16 @@ RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" &&
 	php -r "unlink('composer-setup.php');"
 
 
+# Prepare Apache
+RUN mkdir -p /var/www/html
+RUN mv /var/www/index.html /var/www/html/
+RUN sed -i "s/AllowOverride None/AllowOverride All/g" /etc/apache2/sites-available/default*
+RUN sed -i "s/\/var\/www/\/var\/www\/html/g" /etc/apache2/sites-available/default*
+RUN a2enmod rewrite
+EXPOSE 80
+
+
+# Command
 COPY run.sh     /run.sh
 RUN  chmod +x    /run.sh
 
