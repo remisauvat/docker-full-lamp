@@ -1,7 +1,10 @@
-FROM debian:jessie
+FROM debian:jessie-slim
 MAINTAINER Emmanuel Dyan <emmanuel.dyan@inetprocess.com>
 
+# Create man directory to avoid java to crash on install
+RUN mkdir -p /usr/share/man/man1
 
+# Install Apache + PHP + MySQL Server + Java + Git
 RUN sed -i -e 's/ main/ main non-free/' /etc/apt/sources.list
 RUN DEBIAN_FRONTEND=noninteractive apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get upgrade -y && \
@@ -14,19 +17,16 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update && \
 
 	mysql-server \
 
-    openjdk-7-jre \
+    default-jre-headless \
 
     libapache2-mod-php5 php5-cli php5-curl php5-gd php5-geoip php5-imagick php5-imap php5-intl \
     php5-json php5-ldap php5-mcrypt php5-mongo php5-mysqlnd php5-odbc php5-pgsql \
-    php5-sqlite php5-ssh2 php5-tidy php5-xcache php5-xsl && \
+    php5-sqlite php5-ssh2 php5-tidy php5-xdebug php5-xsl && \
 
     DEBIAN_FRONTEND=noninteractive apt-get clean && \
     DEBIAN_FRONTEND=noninteractive apt-get autoremove -y && \
     rm -Rf /var/lib/apt/lists/* /usr/share/man/* /usr/share/doc/*
 
-# Prepare supervisor
-RUN mkdir -p /var/log/supervisor
-COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 # Prepare Apache
 RUN sed -i "s/AllowOverride None/AllowOverride All/g" /etc/apache2/apache2.conf
@@ -43,5 +43,14 @@ RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" &&
     php composer-setup.php --install-dir=/usr/local/bin/ --filename=composer && \
 	php -r "unlink('composer-setup.php');"
 
+
+COPY run.sh     /run.sh
+RUN  chmod +x    /run.sh
+
+ENV ENVIRONMENT dev
+
 # Last step for services
-CMD ["/usr/bin/supervisord"]
+# Prepare supervisor
+RUN mkdir -p /var/log/supervisor
+COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+CMD ["/run.sh"]
