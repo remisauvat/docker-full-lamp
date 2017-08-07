@@ -12,4 +12,3 @@ if [ "$ENVIRONMENT" != "dev" ]; then
 fi
 
 /usr/bin/supervisord -c /etc/supervisor/supervisord.conf
-

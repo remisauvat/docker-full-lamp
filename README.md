@@ -3,4 +3,7 @@
 # Full LAMP stack Docker Image
 Docker Hub: https://hub.docker.com/r/edyan/full-lamp
 
-Docker Container for continuous integration (such as Gitlab-ci). Contains Apache + PHP + Mysql + Java (so a little bit heavy :)). A specific version also contains libreoffice writer. 
+Docker Container for continuous integration (such as Gitlab-ci).
+Contains Apache + PHP + Mysql + Java
+
+A specific version also contains libreoffice writer.
