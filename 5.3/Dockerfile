@@ -61,6 +61,8 @@ RUN  chmod +x    /run.sh
 
 ENV ENVIRONMENT dev
 
+VOLUME /var/lib/mysql
+
 # Prepare supervisor
 RUN mkdir -p /var/log/supervisor
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf

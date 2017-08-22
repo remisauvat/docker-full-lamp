@@ -49,6 +49,8 @@ RUN  chmod +x    /run.sh
 
 ENV ENVIRONMENT dev
 
+VOLUME /var/lib/mysql
+
 # Last step for services
 # Prepare supervisor
 RUN mkdir -p /var/log/supervisor
