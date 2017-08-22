@@ -11,4 +11,7 @@ if [ "$ENVIRONMENT" != "dev" ]; then
     sed -i 's/^max_execution_time\s*=.*/max_execution_time = 60/g' /etc/php5/apache2/conf.d/30-custom-php.ini
 fi
 
+# Fix MySQL support with overlay docker filesystem, see https://github.com/docker/for-linux/issues/72
+find /var/lib/mysql -type f -exec touch {} \;
+
 /usr/bin/supervisord -c /etc/supervisor/supervisord.conf
