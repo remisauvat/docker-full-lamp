@@ -1,15 +1,17 @@
-FROM edyan/full-lamp:5.6
-MAINTAINER Emmanuel Dyan <emmanuel.dyan@inetprocess.com>
+FROM        edyan/full-lamp:5.6
+MAINTAINER  Emmanuel Dyan <emmanueldyan@gmail.com>
 
-RUN echo "deb http://http.debian.net/debian jessie-backports main contrib non-free" >> /etc/apt/sources.list.d/jessie-backports.list
+ARG         DEBIAN_FRONTEND=noninteractive
+
+RUN         echo "deb http://http.debian.net/debian jessie-backports main contrib non-free" >> /etc/apt/sources.list.d/jessie-backports.list
 
 # Upgrade the system and Install GIT and Libreoffice
-RUN DEBIAN_FRONTEND=noninteractive apt-get update && \
-
-    DEBIAN_FRONTEND=noninteractive apt-get upgrade -y && \
-
-    DEBIAN_FRONTEND=noninteractive apt-get install -t jessie-backports -y --no-install-recommends libreoffice-writer && \
-
-    DEBIAN_FRONTEND=noninteractive apt-get autoremove -y && \
-    DEBIAN_FRONTEND=noninteractive apt-get clean && \
-    rm -Rf /var/lib/apt/lists/* /usr/share/man/* /usr/share/doc/*
+RUN         apt-get update && \
+            apt-get upgrade -y && \
+            # Install required packages
+            apt-get install -t jessie-backports -y --no-install-recommends libreoffice-writer && \
+            # Clean
+            apt-get autoremove -y && \
+            apt-get autoclean && \
+            apt-get clean && \
+            rm -rf /var/lib/apt/lists/* /usr/share/man/* /usr/share/doc/* /var/cache/* /var/log/*

@@ -1,17 +1,29 @@
 #!/bin/bash
+
 set -e
+
 if [ -z "$1" -o ! -d "$1" ]; then
-    echo "You must define a valid PHP version to build as parameter"
+    echo "You must define a valid version to build as parameter"
     exit 1
 fi
+
+VERSION=$1
+GREEN='\033[0;32m'
+NC='\033[0m' # No Color
+
 cd $1
-docker build -t "inet_lamp_full_test" .
+docker build -t "edyan_lamp_${VERSION}_test" .
 echo ""
 echo ""
 if [ $? -eq 0 ]; then
-    echo -e "\x1b[1;32mBuild Done. To run it: \e[0m"
-    echo 'docker run -d --rm --hostname "lamp-full-ctn" --name "lamp-full-ctn" inet_lamp_full_test'
-    echo 'docker exec -i -t "lamp-full-ctn" /bin/bash'
+    echo -e "${GREEN}Build Done${NC}."
+    echo ""
+    echo "Run :"
+    echo "  docker run -d --rm --hostname lamp_${VERSION}-test-ctn --name lamp_${VERSION}-test-ctn edyan_lamp_${VERSION}_test"
+    echo "  docker exec -i -t lamp_${VERSION}-test-ctn /bin/bash"
     echo "Once Done : "
-    echo 'docker stop "lamp-full-ctn"'
+    echo "  docker stop lamp_${VERSION}-test-ctn"
+    echo ""
+    echo "Or if you want to directly enter the container, then remove it : "
+    echo "  docker run -ti --rm edyan_lamp_${VERSION}_test /bin/bash"
 fi
